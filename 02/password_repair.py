@@ -30,6 +30,21 @@ def part1(data):
     return count
 
 
+def part2(data):
+    count = 0
+    for line in data:
+        if (line["letter"] == line["password"][line["low"] - 1]) and (line["letter"] == line["password"][line["high"] - 1]):
+            continue
+        elif (line["letter"] != line["password"][line["low"] - 1]) and (line["letter"] != line["password"][line["high"] - 1]):
+            continue
+        else:
+            count += 1
+    return count
+
+
 data = load_data("02/input.txt")
 count = part1(data)
 print(count)
+
+another_count = part2(data)
+print(another_count)
