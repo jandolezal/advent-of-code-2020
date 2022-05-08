@@ -3,42 +3,46 @@ Day 2: Password Philosophy
 https://adventofcode.com/2020/day/2
 """
 
+from collections import namedtuple
+import re
+
+
+Entry = namedtuple("Entry", "password letter low high".split())
+
 
 def load_data(filename="02/test_input.txt"):
     with open(filename) as f:
         lines = [line.strip() for line in f.readlines()]
-
         data = []
         for line in lines:
-            interval, letter, password = line.split()
-            letter = letter.strip(":")
-            low, high = [int(part) for part in interval.split("-")]
+            low, high, letter, password = re.split("-|: | ", line)
             data.append(
-                dict(letter=letter, low=low, high=high, password=password)
+                Entry(password, letter, int(low), int(high))
             )
 
     return data
 
 
-
 def part1(data):
     count = 0
-    for line in data:
-        occurence = line["password"].count(line["letter"])
-        if (occurence >= line["low"]) and (occurence <= line["high"]):
+
+    for entry in data:
+        occurence = entry.password.count(entry.letter)
+        if entry.low <= occurence <= entry.high:
             count += 1
+
     return count
 
 
 def part2(data):
     count = 0
-    for line in data:
-        if (line["letter"] == line["password"][line["low"] - 1]) and (line["letter"] == line["password"][line["high"] - 1]):
-            continue
-        elif (line["letter"] != line["password"][line["low"] - 1]) and (line["letter"] != line["password"][line["high"] - 1]):
-            continue
-        else:
+
+    for entry in data:
+        if (entry.password[entry.low-1] == entry.letter) and (entry.password[entry.high-1] != entry.letter):
             count += 1
+        elif (entry.password[entry.high-1] == entry.letter) and (entry.password[entry.low-1] != entry.letter):
+            count += 1
+
     return count
 
 
