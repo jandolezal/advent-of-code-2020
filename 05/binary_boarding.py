@@ -3,8 +3,6 @@ Day 5: Binary Boarding
 https://adventofcode.com/2020/day/5
 """
 
-from json import load
-
 
 def load_data(filename="05/test_input.txt"):
     with open(filename) as f:
