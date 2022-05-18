@@ -52,6 +52,11 @@ result = part1(test_data)
 assert result[0] == 820, "Keep trying"
 
 
+# Part 1
 data = load_data("05/input.txt")
 ids_list = part1(data)
 print(ids_list[0])
+
+# Part 2
+seat = set(range(min(ids_list), max(ids_list))) - set(ids_list)
+print(list(seat)[0])
