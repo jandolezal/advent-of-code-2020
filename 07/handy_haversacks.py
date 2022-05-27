@@ -5,7 +5,6 @@ https://adventofcode.com/2020/day/7
 
 
 from collections import defaultdict
-from itertools import accumulate
 
 
 def load_data(filename="07/test_input.txt"):
