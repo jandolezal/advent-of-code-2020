@@ -8,8 +8,8 @@ def load_data(filename='08/test_input.txt'):
     with open(filename) as f:
         data = []
         for line in f.readlines():
-            command, num = line.split(" ")
-            data.append((command, int(num)))
+            command, num = line.split(' ')
+            data.append([command, int(num)])
     return data
 
 
@@ -18,7 +18,7 @@ def part1(data):
     i = 0
     visited = set()
 
-    while i not in visited:
+    while i not in visited and i < (len(data)):
         visited.add(i)
 
         command, num = data[i]
@@ -30,16 +30,42 @@ def part1(data):
             i += 1
         elif command == 'jmp':
             i += num
-    
+
     return i, acc
+
+
+def part2(data):
+    # Filter rows with either nop or jmp
+    target_rows = [
+        i for i, (command, _) in enumerate(data) if command in ('nop', 'jmp')
+    ]
+
+    # Try changing data (rows with nop or jmp) until success
+    for row in target_rows:
+
+        temp_data = data[:]  # copy data
+        temp_data[row] = temp_data[row][:]  # copy row (inner list)
+
+        if temp_data[row][0] == 'nop':
+            temp_data[row][0] = 'jmp'
+        else:
+            temp_data[row][0] = 'nop'
+
+        i, acc = part1(temp_data)
+
+        if i == len(data):
+            return i, acc
 
 
 test_data = load_data()
 i, acc = part1(test_data)
-assert acc == 5, "Part 1 does not work on test data"
+assert acc == 5, 'Part 1 does not work on test data'
 
 # Part 1
 data = load_data('08/input.txt')
 i, acc = part1(data)
+print(i, acc)
 
+# Part 2
+i, acc = part2(data)
 print(i, acc)
