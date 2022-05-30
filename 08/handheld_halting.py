@@ -4,12 +4,15 @@ https://adventofcode.com/2020/day/8
 '''
 
 
-def load_data(filename='08/test_input.txt'):
+from typing import List, Tuple
+
+
+def load_data(filename='08/test_input.txt') -> List[Tuple[str, int]]:
     with open(filename) as f:
         data = []
         for line in f.readlines():
             command, num = line.split(' ')
-            data.append([command, int(num)])
+            data.append((command, int(num)))
     return data
 
 
@@ -41,20 +44,20 @@ def part2(data):
     ]
 
     # Try changing data (rows with nop or jmp) until success
-    for row in target_rows:
+    for i in target_rows:
 
         temp_data = data[:]  # copy data
-        temp_data[row] = temp_data[row][:]  # copy row (inner list)
+        command, num = temp_data[i]
 
-        if temp_data[row][0] == 'nop':
-            temp_data[row][0] = 'jmp'
+        if command == 'nop':
+            temp_data[i] = ('jmp', num)
         else:
-            temp_data[row][0] = 'nop'
+            temp_data[i] = ('nop', num)
 
-        i, acc = part1(temp_data)
+        temp_i, acc = part1(temp_data)
 
-        if i == len(data):
-            return i, acc
+        if temp_i == len(data):
+            return temp_i, acc
 
 
 test_data = load_data()
