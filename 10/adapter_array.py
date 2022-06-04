@@ -52,7 +52,7 @@ def part1(data: List[int]) -> int:
 
 def part2(data) -> int:
     # Start again with list of differences between numbers in the list
-    differences = [data[i + 1] - data[i] for i in range(len(data) - 1)]
+    differences = gather_differences(data)
     # Find all combinations how to remove one(s) for single group of ones within the list
     single_combinations = []
 
